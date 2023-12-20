@@ -52,11 +52,12 @@ class CourseAdmin(admin.ModelAdmin):
 
 
 class RoomResourceAdmin(admin.ModelAdmin):
-    list_display = (
+    list_display = [
         'room_name',
-        'seat',
+        'seats_available',
         'module'
-    )
+    ]
+
 
 
 admin.site.register(Participant, ParticipantAdmin)

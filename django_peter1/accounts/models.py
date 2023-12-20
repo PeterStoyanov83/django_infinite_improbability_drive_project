@@ -1,6 +1,8 @@
 from django.db import models
 from datetime import timedelta
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils import timezone
+from django import forms
 
 
 class UserMaster(models.Model):
@@ -89,19 +91,33 @@ class Participant(models.Model):
         max_length=10)
 
     @property
-    def days_of_stay_left(self):  # function to return left over time for the participant.
+    def days_of_stay_left(self):
         months = 3 if self.period_of_stay == '3 months' else 6
-        end_date = self.date_of_entry + timedelta(
-            days=months * 30
-        )
-        return (end_date - timezone.now()).days if end_date > timezone.now() else 0
+        end_date = self.date_of_entry + timedelta(days=months * 30)
+        today = timezone.now().date()  # Convert to date
+        return (end_date - today).days if end_date > today else 0
+
+class ParticipantForm(forms.ModelForm):
+    SIGNED_AGREEMENT_CHOICES = [
+        (True, 'Yes'),
+        (False, 'No'),
+    ]
+
+    signed_agreement = forms.ChoiceField(choices=SIGNED_AGREEMENT_CHOICES, widget=forms.Select())
+
+    class Meta:
+        model = Participant
+        fields = ['signed_agreement']  # Include other fields here
 
 
 class RoomResource(models.Model):
     room_name = models.CharField(  # could be a list of choices
         max_length=100
     )
-    seat = models.PositiveIntegerField()
+    seats_available = models.IntegerField(default=5, validators=[
+        MinValueValidator(5),
+        MaxValueValidator(50)
+    ])
     module = models.CharField(  # could be a list of choices
         max_length=100
     )

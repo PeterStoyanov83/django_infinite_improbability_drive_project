@@ -1,29 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Database Display</title>
+    <style>
+    .flex-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+    .table-container {
+        flex-grow: 1;
+        min-width: 150px; /* Decrease the min-width as needed */
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    th, td {
+        border: 1px solid black;
+        padding: 5px;
+        text-align: left;
+        max-width: 120px; /* Set a maximum width for each cell */
+        word-wrap: break-word; /* Allows the content to wrap within the cell */
+    }
+</style>
 </head>
 <body>
     <h1>Database Contents</h1>
+    <div class="flex-container">
+        <div class="table-container">
+            <h2>Participants</h2>
+                <table border="1">
+                  <tr>
+                    <!-- Add table headers for each participant field you want to display -->
+                    <th>Full Name</th>
+                    <th>ID Number</th>
+                    <th>Date of Entry</th>
+                    <th>Period of Stay</th>
+                    <th>Signed Agreement</th>
+                    <th>Days left</th><!-- Continue adding table headers for each field -->
+                  </tr>
 
-    <h2>Participants</h2>
-    <ul>
-    {% for participant in participants %}
-        <li>{{ participant.full_name }} - {{ participant.other_field }}</li>
-        <!-- Display other participant fields -->
-    {% endfor %}
-    </ul>
+                  {% for participant in participants %}
+                  <tr>
+                    <!-- Add table data for each field -->
+                    <td>{{ participant.full_name }}</td>
+                    <td>{{ participant.id_number }}</td>
+                    <td>{{ participant.date_of_entry }}</td>
+                    <td>{{ participant.period_of_stay }}</td>
+                    <td>{{ participant.signed_agreement }}</td>
+                    <td>{{ participant.days_of_stay_left }}</td>
+                    <!-- Continue adding table data for each field -->
+                  </tr>
+                  {% endfor %}
+                </table>
+        </div>
+        <div class="table-container">
+            <h2>Lecturers</h2>
+                <table border="1">
+                  <tr>
+                    <!-- Add table headers for each participant field you want to display -->
+                    <th>Full Name</th>
+                    <th>Bio</th>
+                    <!-- Continue adding table headers for each field -->
+                  </tr>
 
-    <!-- Repeat for other models like Lecturer, UserMaster, etc. -->
-    <h2>Lecturers</h2>
-    <ul>
-    {% for lecturer in lecturers %}
-        <li>{{ lecturer.full_name }} - {{ lecturer.other_field }}</li>
-        <!-- Display other lecturer fields -->
-    {% endfor %}
-    </ul>
+                  {% for lecturer in lecturers %}
+                  <tr>
+                    <!-- Add table data for each field -->
+                    <td>{{ lecturer.full_name }}</td>
+                    <td>{{ lecturer.bio }}</td>
 
-    <!-- Continue with UserMaster, Course, RoomResource -->
 
+                  </tr>
+                  {% endfor %}
+                </table>
+        </div>
+        <!-- Repeat for other model tables -->
+    </div>
 </body>
 </html>

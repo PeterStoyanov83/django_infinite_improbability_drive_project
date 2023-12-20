@@ -44,12 +44,13 @@ class Command(BaseCommand):
             )
 
         # Populate RoomResource
-        for _ in range(10):
-            RoomResource.objects.create(
-                room_name=fake.bothify(text='Room ???'),
-                seat=random.randint(1, 50),
-                module=fake.bothify(text='Module ??')
+        for i in range(50):  # Adjust the range for the number of records you want
+            room = RoomResource(
+                room_name=f'Room {i + 1}',
+                seats_available=random.randint(5, 50),
+                module=f'Module {i + 1}'  # Replace with actual module data
             )
+            room.save()
 
         # Populate Lecturer
         for _ in range(20):
