@@ -3,6 +3,12 @@ from faker import Faker
 from django_peter1.accounts.models import UserMaster, Course, Participant, RoomResource, Lecturer
 from django.utils import timezone
 from django.core.management.base import BaseCommand
+import os
+import django
+
+# Set up the Django environment
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'django_peter1.settings')
+django.setup()
 
 
 class Command(BaseCommand):
